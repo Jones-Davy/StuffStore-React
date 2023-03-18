@@ -1,26 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import { ROUTES } from '../../utils/routes'
+import { ROUTES } from "../../utils/routes";
 
-import styles from '../../styles/Product.module.css'
+import styles from "../../styles/Product.module.css";
 
-const SIZES = [4, 4.5, 5]
+import { addItemToCart, addItemToFavorite } from "../../features/user/userSlice";
+
+const SIZES = [4, 4.5, 5];
 
 const Product = (item) => {
-  const { title, price, images, description } = item
+  const { title, price, images, description } = item;
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [currentImage, setCurrentImage] = useState()
-  const [currentSize, setCurrentSize] = useState()
+  const [currentImage, setCurrentImage] = useState();
+  const [currentSize, setCurrentSize] = useState();
 
   useEffect(() => {
-    if (!images.length) return
+    if (!images.length) return;
 
-    setCurrentImage(images[0])
-  }, [images])
+    setCurrentImage(images[0]);
+  }, [images]);
+
+  const addToCart = () => {
+    dispatch(addItemToCart(item));
+  };
+
+  const addToFavorite = () => {
+    dispatch(addItemToFavorite(item));
+  };
 
   return (
     <section className={styles.product}>
@@ -29,7 +39,7 @@ const Product = (item) => {
           className={styles.current}
           style={{ backgroundImage: `url(${currentImage})` }}
         />
-        <div className={styles['images-list']}>
+        <div className={styles["images-list"]}>
           {images.map((image, i) => (
             <div
               key={i}
@@ -54,7 +64,7 @@ const Product = (item) => {
               <div
                 onClick={() => setCurrentSize(size)}
                 className={`${styles.size} ${
-                  currentSize === size ? styles.active : ''
+                  currentSize === size ? styles.active : ""
                 }`}
                 key={size}
               >
@@ -68,13 +78,15 @@ const Product = (item) => {
 
         <div className={styles.actions}>
           <button
-            //onClick={addToCart}
+            onClick={addToCart}
             className={styles.add}
             disabled={!currentSize}
           >
             Add to cart
           </button>
-          <button className={styles.favourite}>Add to favourites</button>
+          <button 
+          className={styles.favourite}
+          onClick={addToFavorite}>Add to favourites</button>
         </div>
 
         <div className={styles.bottom}>
@@ -84,7 +96,7 @@ const Product = (item) => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Product
+export default Product;

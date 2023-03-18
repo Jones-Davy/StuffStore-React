@@ -43,6 +43,10 @@
   padding: 12px 24px;
 }
 
+.group input:not(:last-child) {
+  margin-bottom: 5px;
+}
+
 .submit {
   font-weight: 500;
   line-height: 20px;
