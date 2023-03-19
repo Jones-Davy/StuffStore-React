@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import styles from '../../styles/Header.module.css'
 
@@ -15,6 +15,8 @@ import { toggleForm } from '../../features/user/userSlice'
 
 const Header = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const { currentUser } = useSelector(({ user }) => user)
 
   const [values, setValues] = useState({
@@ -30,6 +32,7 @@ const Header = () => {
 
   const handleClick = () => {
     if (!currentUser) dispatch(toggleForm(true))
+    else navigate(ROUTES.PROFILE)
   }
 
   return (
