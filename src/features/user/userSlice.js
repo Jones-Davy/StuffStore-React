@@ -22,9 +22,10 @@ export const loginUser = createAsyncThunk(
       const res = await axios.post(`${BASE_URL}/auth/login`, payload);
       const login = await axios(`${BASE_URL}/auth/profile`, {
         headers: {
-          'Authorization': `Bearer ${res.data.access_token}`
-        }
-      })
+          Authorization: `Bearer ${res.data.access_token}`,
+        },
+      });
+
       return login.data;
     } catch (err) {
       console.log(err);
@@ -38,12 +39,7 @@ export const updateUser = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const res = await axios.put(`${BASE_URL}/users/${payload.id}`, payload);
-      const login = await axios(`${BASE_URL}/auth/profile`, {
-        headers: {
-          'Authorization': `Bearer ${res.data.access_token}`
-        }
-      })
-      return login.data;
+      return res.data;
     } catch (err) {
       console.log(err);
       return thunkAPI.rejectWithValue(err);
@@ -60,14 +56,10 @@ const userSlice = createSlice({
   initialState: {
     currentUser: null,
     cart: [],
-    favorite: [],
     isLoading: false,
     formType: "signup",
     showForm: false,
   },
-
-  //nnnnn@mail.ru nnn
-
   reducers: {
     addItemToCart: (state, { payload }) => {
       let newCart = [...state.cart];
@@ -86,30 +78,12 @@ const userSlice = createSlice({
     removeItemFromCart: (state, { payload }) => {
       state.cart = state.cart.filter(({ id }) => id !== payload);
     },
-    addItemToFavorite: (state, { payload }) => {
-      let newFavorite = [...state.favorite];
-      const found = state.favorite.find(({ id }) => id === payload.id);
-
-      if (found) {
-        newFavorite = newFavorite.map((item) => {
-          return item.id === payload.id
-            ? {  }
-            : item;
-        });
-      } else newFavorite.push({ ...payload });
-
-      state.favorite = newFavorite;
-    },
-    removeItemFromFavorite: (state, { payload }) => {
-      state.favorite = state.favorite.filter(({ id }) => id !== payload);
-    },
     toggleForm: (state, { payload }) => {
       state.showForm = payload;
     },
     toggleFormType: (state, { payload }) => {
       state.formType = payload;
     },
-
   },
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, addCurrentUser);
@@ -118,7 +92,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { addItemToCart, removeItemFromCart, addItemToFavorite, removeItemFromFavorite, toggleForm, toggleFormType } =
+export const { addItemToCart, removeItemFromCart, toggleForm, toggleFormType } =
   userSlice.actions;
 
 export default userSlice.reducer;

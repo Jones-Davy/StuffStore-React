@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+import { buildUrl } from "../../utils/common";
 import { BASE_URL } from "../../utils/consts";
 
 export const apiSlice = createApi({
@@ -12,6 +13,7 @@ export const apiSlice = createApi({
       providesTags: ["Product"],
     }),
     getProducts: builder.query({
+      query: (params) => buildUrl("/products", params),
       providesTags: ["Products"],
     }),
   }),

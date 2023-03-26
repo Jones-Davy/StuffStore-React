@@ -6,7 +6,7 @@ import { ROUTES } from "../../utils/routes";
 
 import styles from "../../styles/Product.module.css";
 
-import { addItemToCart, addItemToFavorite } from "../../features/user/userSlice";
+import { addItemToCart } from "../../features/user/userSlice";
 
 const SIZES = [4, 4.5, 5];
 
@@ -28,9 +28,9 @@ const Product = (item) => {
     dispatch(addItemToCart(item));
   };
 
-  const addToFavorite = () => {
-    dispatch(addItemToFavorite(item));
-  };
+  // const addToFavorite = () => {
+  //   dispatch(addItemToFavorite(item));
+  // };
 
   return (
     <section className={styles.product}>
@@ -86,7 +86,7 @@ const Product = (item) => {
           </button>
           <button 
           className={styles.favourite}
-          onClick={addToFavorite}>Add to favourites</button>
+          onClick={() => {}}>Add to favourites</button>
         </div>
 
         <div className={styles.bottom}>

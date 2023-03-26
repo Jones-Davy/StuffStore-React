@@ -90,7 +90,7 @@ const Profile = () => {
             />
           </div>
 
-          <button type="submit" className={styles.submit}>
+          <button type="submit" className={styles.submit} onClick={handleSubmit}>
             Update
           </button>
         </form>
